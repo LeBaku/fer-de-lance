@@ -1,34 +1,45 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import { useEffect, useState } from 'react'
+import { supabase } from './lib/supabaseClient'
+import { Container, Heading, Text, VStack, Box, Image } from '@chakra-ui/react'
 
 function App() {
-  const [count, setCount] = useState(0)
+  const [data, setData] = useState<any[]>([])
+  const [loading, setLoading] = useState(true)
+
+  useEffect(() => {
+    async function fetchData() {
+      const { data: units, error } = await supabase.from('units').select('*')
+
+      if (error) {
+        console.error('Erreur:', error)
+      } else {
+        setData(units || [])
+      }
+      setLoading(false)
+    }
+
+    fetchData()
+  }, [])
 
   return (
-    <>
-      <div>
-        <a href="https://vite.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.tsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
+    <Container maxW="container.md" py={10}>
+      <VStack gap={6} align="stretch">
+        <Heading>Mes Unités Spearhead</Heading>
+        {loading ? (
+          <Text>Chargement des renforts...</Text>
+        ) : data.length > 0 ? (
+          data.map((item) => (
+            <Box key={item.id} p={5} shadow="md" borderWidth="1px" borderRadius="md" bg="gray.300">
+              <Heading size="md">{item.name}</Heading>
+              <Text mt={2}>{item.size}</Text>
+              <Image src={item.image_url} objectFit="cover" boxSize={{ base: "100%", md: "200px" }} />
+            </Box>
+          ))
+        ) : (
+          <Text>Aucune donnée trouvée. Vérifie ta table Supabase !</Text>
+        )}
+      </VStack>
+    </Container>
   )
 }
 
