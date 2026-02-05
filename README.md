@@ -1,73 +1,50 @@
-# React + TypeScript + Vite
+# ⚔️ Fer-de-Lance Companion
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Une **PWA (Progressive Web App)** légère et intuitive pour gérer tes parties de **Warhammer Age of Sigmar: Spearhead**. 
+L'objectif est de garder les yeux sur la table de jeu, pas dans les bouquins !
 
-Currently, two official plugins are available:
+## ✨ Fonctionnalités
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+- 📜 **Warscrolls Tactiques** : Toutes les stats de tes unités optimisées pour mobile.
+- 🎯 **Suivi de Score** : Un compteur de Points de Victoire (PV) et Points de Commandement (PC) intégré.
+- 🃏 **Aides de Jeu** : Accès rapide aux aptitudes de faction et aux tactiques de bataille.
+- 🔋 **Mode Offline** : Fonctionne même dans les sous-sols des clubs grâce au mode PWA.
+- 🌑 **Interface Grimdark** : Un mode sombre conçu pour l'univers AOS avec Chakra UI.
 
-## React Compiler
+## 🛠️ Stack Technique
 
-The React Compiler is currently not compatible with SWC. See [this issue](https://github.com/vitejs/vite-plugin-react/issues/428) for tracking the progress.
+- **Framework** : Vite.js + React (TS)
+- **UI** : Chakra UI pour des composants propres et réactifs.
+- **Backend** : Supabase (Database & Auth).
+- **Contenu** : Rendu Markdown avec `react-markdown`.
+- **Déploiement** : Vercel (Hébergement gratuit).
 
-## Expanding the ESLint configuration
+## 🚀 Installation locale
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
-
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
-
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+1. **Cloner le projet**
+```bash
+git clone git@github.com:LeBaku/fer-de-lance.git
+cd fer-de-lance
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
-
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
-
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+2. **Installer les dépendances**
+```bash
+npm install
 ```
+
+3. **Configurer les variables d'environnement**
+Copie le fichier `.env.example` en `.env` et ajoute tes clés Supabase.
+
+4. **Lancer le serveur de dev**
+```bash
+npm run dev
+```
+
+## 📦 Déploiement
+
+Le projet est configuré pour être déployé sur **Vercel** ou **Netlify**. 
+N'oubliez pas d'ajouter les variables d'environnement `VITE_SUPABASE_URL` et `VITE_SUPABASE_ANON_KEY` dans les paramètres de votre service d'hébergement.
+
+---
+
+*Fait avec ❤️ par des fans pour des fans. Warhammer Age of Sigmar est la propriété de Games Workshop.*
