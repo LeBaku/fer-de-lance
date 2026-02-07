@@ -1,61 +1,22 @@
-import { useEffect, useState } from 'react'
-import { supabase } from './lib/supabaseClient'
-import { Container, Heading, Text, VStack, Box, Image, Flex } from '@chakra-ui/react'
+import { Container, Heading, VStack, Text, Center } from "@chakra-ui/react"
 
 function App() {
-  const [data, setData] = useState<any[]>([])
-  const [loading, setLoading] = useState(true)
-
-  useEffect(() => {
-    async function fetchData() {
-      const cached = localStorage.getItem('units-cache')
-      if (cached) {
-        setData(JSON.parse(cached))
-        setLoading(false)
-      }
-
-      const { data: units, error } = await supabase.from('units').select('*')
-
-      if (error) {
-        console.error('Erreur:', error)
-      } else {
-        setData(units)
-        localStorage.setItem('units-cache', JSON.stringify(units))
-      }
-      setLoading(false)
-    }
-
-    fetchData()
-  }, [])
-
   return (
     <Container maxW="container.md" py={10}>
-      <VStack gap={6} align="stretch">
-        <Heading>Mes Unités Spearhead</Heading>
-        {loading ? (
-          <Text>Chargement des renforts...</Text>
-        ) : data.map((item) => (
-          <Box key={item.id} p={0} overflow="hidden" borderWidth="1px" borderRadius="xl" bg="gray.800">
-            <Flex direction={{ base: "column", md: "row"}}>
-              <Image src={item.image_url} objectFit="cover" boxSize={{ base: "100%", md: "200px" }} />
-              <VStack align="start" p={5} gap={2}>
-                <Flex justify="space-between" width="100%" align="center">
-                  <Heading size="md" color="white">{item.name}</Heading>
-                </Flex>
-                <Box>
-                  <Text fontSize="xs" fontWeight="bold" color="gray.500" mb={1}>
-                    MOT CLES
-                  </Text>
-                  <Text fontSize="sm" color="gray.300" fontStyle="italic">
-                    {Array.isArray(item.keywords)
-                      ? item.keywords.join(", ")
-                      : item.keywords?.split(',').map((k: string) => k.trim()).join(', ')}
-                  </Text>
-                </Box>
-              </VStack>
-            </Flex>
-          </Box>
-        ))}
+      <VStack gap={10} align="start">
+        <VStack align="center" gap={1}>
+          <Heading size="2xl" color="white" letterSpacing="tighter">
+            FER-DE-LANCE
+          </Heading>
+          <Text color="yellow.500" fontSize="xs" fontWeight="bold" letterSpacing="widest">
+            COMPAGNON TACTIQUE
+          </Text>
+        </VStack>
+        <Center p={10} borderWidth="2px" borderStyle="dashed" borderColor="gray.700" borderRadius="xl">
+          <VStack>
+            <Text color="gray.500">Composant ici...</Text>
+          </VStack>
+        </Center>
       </VStack>
     </Container>
   )
