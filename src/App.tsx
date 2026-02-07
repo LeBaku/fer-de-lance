@@ -1,25 +1,45 @@
-import { Container, Heading, VStack, Text, Center } from "@chakra-ui/react"
+import { useState } from 'react'
+import { Box, VStack, Text, Container, Flex, Button } from '@chakra-ui/react'
+import { SpearheadSelector } from './components/SpearheadSelector'
+import { UnitList } from './components/UnitList'
 
 function App() {
+  const [selectedId, setSelectedId] = useState<string | null>(null);
+  const [selectedName, setSelectedName] = useState<string>("");
+
+  const handleSelect = (id: string, name: string) => {
+    setSelectedId(id);
+    setSelectedName(name);
+  };
+
   return (
-    <Container maxW="container.md" py={10}>
-      <VStack gap={10} align="start">
-        <VStack align="center" gap={1}>
-          <Heading size="2xl" color="white" letterSpacing="tighter">
-            FER-DE-LANCE
-          </Heading>
-          <Text color="yellow.500" fontSize="xs" fontWeight="bold" letterSpacing="widest">
-            COMPAGNON TACTIQUE
-          </Text>
+    <Box minW="100vw" minH="100vh" bg="gray.900" color="white">
+      <Flex as="header" w="100%" bg="gray.800" h="70px" align="center" justify="center" borderBottom="2px solid" borderColor="yellow.600" position="sticky" top="0" zIndex="10">
+        <VStack gap={0}>
+          <Text fontWeight="black" fontSize="xl">{selectedId ? selectedName : "FER-DE-LANCE"}</Text>
+          <Text fontSize="xs" color="yellow.500" fontWeight="bold">COMPAGNON TACTIQUE</Text>
         </VStack>
-        <Center p={10} borderWidth="2px" borderStyle="dashed" borderColor="gray.700" borderRadius="xl">
-          <VStack>
-            <Text color="gray.500">Composant ici...</Text>
+      </Flex>
+
+      <Container maxW="8xl" px={4} py={6}>
+        {selectedId ? (
+          <VStack align="stretch" gap={6}>
+            <Button 
+              variant="plain" 
+              color="yellow.500" 
+              onClick={() => setSelectedId(null)}
+              alignSelf="flex-start"
+              px={0}
+            >
+              ← Retour aux armées
+            </Button>
+            <UnitList spearheadId={selectedId} />
           </VStack>
-        </Center>
-      </VStack>
-    </Container>
+        ) : (
+          <SpearheadSelector onSelect={handleSelect} />
+        )}
+      </Container>
+    </Box>
   )
 }
-
 export default App
